@@ -1,0 +1,42 @@
+model Model01
+	annotation(
+	experiment(
+		description="",
+		solver=QSS3,
+		StartTime=0.0,
+		StopTime=10,
+		Tolerance=1e-3,
+		AbsTolerance=1e-4
+	));
+
+  //Constant contant_1(k = 1);
+  Real contant_1_y(start=0);
+  Real contant_1_k(start=1);
+  //WSum sum_1;
+  constant Integer sum_1_N = 2;
+  Real sum_1_u[sum_1_N];
+  Real sum_1_y;
+  Real sum_1_w[sum_1_N];
+  //QSSIntegrator integrator_1;
+  Real integrator_1_u;
+  Real integrator_1_x0(start=0);
+  Real integrator_1_y;
+
+initial algorithm
+	sum_1_u[1] := 0;
+	sum_1_u[2] := 0;
+      sum_1_w[1] := 1;
+      sum_1_w[2] := -1;
+     integrator_1_y := 0;
+equation
+  //QSSIntegrator integrator_1;
+  der(integrator_1_y) = integrator_1_u;
+  //WSum sum_1;
+  sum_1_y = sum_1_w[1] * sum_1_u[1] + sum_1_w[2] * sum_1_u[2];
+  //Constant contant_1(k = 1);
+  contant_1_y = contant_1_k;
+  ///
+  contant_1_y = sum_1_u[1];
+  integrator_1_y = sum_1_u[2];
+  sum_1_y = integrator_1_u;
+end Model01;
